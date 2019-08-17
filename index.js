@@ -1,24 +1,61 @@
-let startDate = 1995;
- let endDate = 2017;
+let today = new Date();
+let date1 = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+    let eastWest = [
+      '1st Avenue',
+      '2nd Avenue',
+      '3rd Avenue',
+      'Lexington Avenue',
+      'Park',
+      'Madison Avenue',
+      '5th Avenue'
+    ];
+    let northSouth = [
+      '1st Street',
+      '2nd Street',
+      '3rd Street',
+      '4th Street',
+      '5th Street',
+      '6th Street',
+      '7th Street'
+    ];
+
+class Route {
+  constructor( beginningLocation, endingLocation ) {
+    this.beginningLocation = beginningLocation;
+    this.endingLocation = endingLocation;
+  }
+  avenueToInteger( avenue ) {
+    return eastWest.indexOf( avenue );
+  }
+  blocksTravelled() {
+    let horizontalDistance =
+      this.avenueToInteger( this.endingLocation.horizontal ) -
+      this.avenueToInteger( this.beginningLocation.horizontal );
+    let verticalDistance =
+      this.endingLocation.vertical - this.beginningLocation.vertical;
+    return Math.abs( horizontalDistance ) + Math.abs( verticalDistance );
+  }
+  estimatedTime( peak ) {
+    if ( peak ) {
+      return this.blocksTravelled() / 2;
+    } else {
+      return this.blocksTravelled() / 3;
+    }
+  }
+}
+
+
 class Driver {
-    constructor(name, startDate){
-        this.name = name ;
-        this.startDate = new Date(startDate);
-      }
-      yearsExperienceFromBeginningOf(endDate) {
-        this.endDate = new Date(endDate);
-        return this.endDate.getFullYear() - this.startDate.getFullYear();
-      }
-    }
-    
-    class Route {
-      constructor (startLocation, endLocation){
-        this.startLocation = {horizontal : park, vertical : 34};
-        this.endLocation = {horizontal : park, vertical : 45};
-      }
-      blocksTravelled() {
-        return this.endLocation - this.startLocation ;
-      }
-    }
-    
-    
+  constructor( name, startDate ) {
+    this.name = name;
+    this.startDate = new Date( startDate );
+  }
+  yearsExperienceFromBeginningOf( year ) {
+    let endDate = new Date( year, 1, 1 );
+    let totalYears = ( endDate - this.startDate ) / ( 365 * 24 * 60 * 60 * 1000 );
+    return parseInt( totalYears );
+  }
+}
+
+
